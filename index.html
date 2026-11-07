@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เข้าสู่ระบบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg:#14110f; --card:#1e1a17; --card2:#272220; --border:#38312c;
+    --text:#f1ebe4; --muted:#a0968b; --accent:#d2b48c; --accent-ink:#1a1512;
+    --green:#4ade80; --red:#f87171;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:grid; place-items:center; padding:16px;
+    font-family:'Prompt',system-ui,sans-serif; color:var(--text); background:var(--bg); font-size:14px;
+  }
+  .card{
+    width:100%; max-width:380px; background:var(--card); border:1px solid var(--border);
+    border-radius:18px; padding:26px 22px; text-align:center; box-shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  .logo{
+    width:52px; height:52px; margin:0 auto 14px; border-radius:15px; background:var(--card2);
+    border:1px solid var(--border); display:grid; place-items:center; font-size:1.4rem; color:var(--accent);
+  }
+  h1{margin:0 0 4px; font-size:1.2rem; font-weight:600}
+  .sub{margin:0 0 20px; color:var(--muted); font-size:.82rem}
+  button{
+    font-family:inherit; cursor:pointer; border:0; border-radius:12px; font-weight:600; font-size:.9rem;
+    padding:12px 16px; width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    transition:filter .15s, transform .15s;
+  }
+  button:hover{filter:brightness(1.08); transform:translateY(-1px)}
+  button:disabled{opacity:.6; cursor:wait; transform:none}
+  .btn-google{background:#f1ebe4; color:#1a1512}
+  .btn-google svg{width:18px; height:18px}
+  .btn-out{background:var(--card2); color:var(--text); border:1px solid var(--border); margin-top:10px}
+  .btn-main{background:var(--accent); color:var(--accent-ink); margin-top:16px}
+  .profile img{width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid var(--border); background:var(--card2)}
+  .profile .name{margin:10px 0 2px; font-size:1.05rem; font-weight:600}
+  .profile .mail{margin:0; color:var(--muted); font-size:.82rem; word-break:break-all}
+  .badge{
+    display:inline-flex; align-items:center; gap:6px; margin-top:12px; padding:4px 12px;
+    background:var(--card2); border:1px solid var(--border); border-radius:999px; font-size:.74rem; color:var(--muted);
+  }
+  .badge i{color:var(--green); font-size:.5rem}
+  .msg{margin-top:14px; padding:9px 12px; border-radius:10px; font-size:.78rem; text-align:left; display:none}
+  .msg.err{display:block; background:#2a1a1a; border:1px solid #5b2d2d; color:#fca5a5}
+  .hide{display:none !important}
+  .foot{margin-top:18px; color:var(--muted); font-size:.7rem}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo"><i class="fa-solid fa-cloud"></i></div>
+
+  <!-- ยังไม่ล็อกอิน -->
+  <div id="viewOut">
+    <h1>เข้าสู่ระบบ / สมัครสมาชิก</h1>
+    <p class="sub">ใช้บัญชี Google ของคุณ ไม่ต้องตั้งรหัสผ่านใหม่</p>
+    <button class="btn-google" id="btnLogin">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      เข้าสู่ระบบด้วย Google
+    </button>
+  </div>
+
+  <!-- ล็อกอินแล้ว -->
+  <div id="viewIn" class="hide">
+    <div class="profile">
+      <img id="avatar" src="" alt="">
+      <p class="name" id="uName"></p>
+      <p class="mail" id="uMail"></p>
+      <span class="badge"><i class="fa-solid fa-circle"></i> เข้าสู่ระบบแล้ว</span>
+    </div>
+    <button class="btn-main" id="btnGo"><i class="fa-solid fa-store"></i> ไปหน้าร้านค้า</button>
+    <button class="btn-out" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
+  </div>
+
+  <div class="msg" id="msg"></div>
+  <p class="foot">การเข้าสู่ระบบถือว่ายอมรับนโยบายความเป็นส่วนตัวของร้าน</p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* ===== 1) วางค่า firebaseConfig ของคุณตรงนี้ (Firebase Console → Project settings → Your apps) ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDRtAtWqSqmbTESI2vSXwih94E_-Nuulo4",
+  authDomain: "pk-shop-thailand.firebaseapp.com",
+  projectId: "pk-shop-thailand",
+  appId: "1:819529888614:web:9e00f0e08ffaf76618cea7"
+};
+
+/* ===== 2) ลิงก์ปุ่ม "ไปหน้าร้านค้า" (ใส่ URL หน้าเว็บหลักของคุณ) ===== */
+const SHOP_URL = "#";
+
+const $ = id => document.getElementById(id);
+const msg = $('msg');
+function showError(t){ msg.className = 'msg err'; msg.textContent = t; }
+function clearError(){ msg.className = 'msg'; msg.textContent = ''; }
+
+let auth;
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+} catch(e){
+  showError('ตั้งค่า Firebase ไม่ถูกต้อง ตรวจสอบ firebaseConfig อีกครั้ง');
+}
+
+$('btnGo').addEventListener('click', () => { if (SHOP_URL !== '#') location.href = SHOP_URL; });
+
+if (auth) {
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      $('viewOut').classList.add('hide');
+      $('viewIn').classList.remove('hide');
+      $('uName').textContent = user.displayName || 'ผู้ใช้';
+      $('uMail').textContent = user.email || '';
+      $('avatar').src = user.photoURL || '';
+      $('avatar').style.visibility = user.photoURL ? 'visible' : 'hidden';
+    } else {
+      $('viewIn').classList.add('hide');
+      $('viewOut').classList.remove('hide');
+    }
+  });
+
+  $('btnLogin').addEventListener('click', async () => {
+    clearError();
+    const btn = $('btnLogin'); btn.disabled = true;
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+    } catch(e){
+      const map = {
+        'auth/popup-closed-by-user': 'ปิดหน้าต่างล็อกอินก่อนเสร็จ ลองใหม่อีกครั้ง',
+        'auth/popup-blocked': 'เบราว์เซอร์บล็อกหน้าต่างป๊อปอัป กรุณาอนุญาตป๊อปอัปแล้วลองใหม่',
+        'auth/unauthorized-domain': 'โดเมนนี้ยังไม่ได้เพิ่มใน Firebase (Authentication → Settings → Authorized domains)',
+        'auth/operation-not-allowed': 'ยังไม่ได้เปิดการเข้าสู่ระบบด้วย Google ใน Firebase',
+        'auth/network-request-failed': 'เชื่อมต่ออินเทอร์เน็ตไม่ได้'
+      };
+      if (e.code !== 'auth/cancelled-popup-request') showError(map[e.code] || ('เข้าสู่ระบบไม่สำเร็จ (' + (e.code || 'unknown') + ')'));
+    } finally { btn.disabled = false; }
+  });
+
+  $('btnLogout').addEventListener('click', async () => {
+    clearError();
+    try { await signOut(auth); } catch(e){ showError('ออกจากระบบไม่สำเร็จ'); }
+  });
+}
+</script>
+</body>
+</html>
